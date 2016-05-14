@@ -104,10 +104,10 @@ resp.removed  # True
 
 ## Errors
 
-is_valid() always returns False when something was wrong. Additionally, 3 params are returned: 
-*error: error token
-*error_msg: error description
-*extra: raw error
+The method -> is_valid() always returns False when something was wrong. Additionally, 3 params are returned: 
+* error: error token
+* error_msg: error description
+* extra: raw error
 
 example:
 
