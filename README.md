@@ -136,7 +136,7 @@ error.extra  #  <responseCode>-98</responseCode>
   ```  
 
 ## Contributors
-This library is derived from python-oneclick (https://github.com/cornershop/python-oneclick).
+This library is based on python-oneclick (https://github.com/cornershop/python-oneclick).
 
 You can contribute by forking the project, adding the contributions and creating the PRs, or just file an issue and we will try to solve it ASAP.
 
