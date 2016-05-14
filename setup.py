@@ -5,9 +5,9 @@ from setuptools import setup, find_packages
 
 setup(
     name='tbk-oneclick',
-    version='0.1',
-    description='',
-    long_description='',
+    version='0.3',
+    description='Python implementation of transbank oneclick',
+    long_description='Python implementation of transbank oneclick',
     author='Ignacio Hermosilla',
     author_email='hi@ignacio.im',
     maintainer='Ignacio  Hermosilla',
