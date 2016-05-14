@@ -1,7 +1,13 @@
 
-## Installation
+## Install
 
 Setup:
+
+  ```
+  pip install tbk-oneclick
+  ```
+
+  or manually:
 
   ```
   python setup.py develop
@@ -12,8 +18,25 @@ Setup:
 First set environment variable for commerce
 
 ```
-os.environ['TBK_COMMERCE_KEY'] = "KEY"
-os.environ['TBK_COMMERCE_CRT'] = "CERTIFICATE"
+import os
+os.environ['TBK_COMMERCE_KEY'] = "PATH_KEY"
+os.environ['TBK_COMMERCE_CRT'] = "PATH_CERTIFICATE"
+```
+
+The default behavior is to use the transbank production environment. If you want to use the Transbank testing environment (with your testing certificates), you need to indicate this on initialization:
+
+```
+from oneclick import OneClick
+oneclick = OneClick(testing_mode=True)  # use library with Transbank testing environment
+```
+
+otherwise (production certificates):
+
+```
+from oneclick import OneClick
+oneclick = OneClick()  # Transbank production environment
+```
+
 ```
 Init Inscription
 
@@ -92,6 +115,7 @@ resp.removed  # True
   ```  
 
 ## Contributors
+This library is derived from [python-oneclick](https://github.com/cornershop/python-oneclick).
 
 You can contribute by forking the project, adding the contributions and creating the PRs, or just file an issue and we will try to solve it ASAP.
 
