@@ -2,15 +2,20 @@
 
 from __future__ import print_function
 import struct
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.poolmanager import PoolManager
+import ssl
 
 try:
     range = xrange
 except NameError:
     pass
 
+
 def _left_rotate(n, b):
     return ((n << b) | (n >> (32 - b))) & 0xffffffff
-    
+
+
 def sha1(message):
     """SHA-1 Hashing Function
 

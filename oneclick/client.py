@@ -1,8 +1,13 @@
 from response import Response
 import requests
-from requests_toolbelt import SSLAdapter
 import sys
-import os
+
+try:  # patch urllib with pyopenssl for TLS 1.2 compatibility (python 2.6)
+    import urllib3.contrib.pyopenssl
+    urllib3.contrib.pyopenssl.inject_into_urllib3()
+except ImportError:
+    pass
+
 if sys.version > '3':
     unicode = str
 
@@ -10,12 +15,12 @@ if sys.version > '3':
 class Client(object):
     client = None
     location = None
-    _testing = None
+    _testing_mode = None
     http = None
 
-    def __init__(self, testing=False):
-        self._testing = testing
-        if testing:
+    def __init__(self, testing_mode=False):
+        self._testing_mode = testing_mode
+        if testing_mode:
             self.location = 'https://tbk.orangepeople.cl/webpayserver/wswebpay/OneClickPaymentService'
         else:
             self.location = 'https://webpay3g.transbank.cl:443/webpayserver/wswebpay/OneClickPaymentService'
@@ -37,5 +42,5 @@ class Client(object):
 
     def request(self, action, xml):
         response_content = self.send(action, xml)
-        response = Response(response_content, action, self._testing)
+        response = Response(response_content, action, self._testing_mode)
         return response

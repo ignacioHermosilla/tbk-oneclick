@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import xml.etree.ElementTree as ET
-from xml.etree.ElementTree import ParseError
 from OpenSSL import crypto
 from cStringIO import StringIO
 import os
@@ -48,11 +47,11 @@ class Response(object):
     _xml_result = None
     _xml_error = None
     _tbk_key = None
-    _testing = None
+    _testing_mode = None
 
-    def __init__(self, content, action, testing=False):
+    def __init__(self, content, action, testing_mode=False):
         self.error = None
-        self._testing = testing
+        self._testing_mode = testing_mode
         self.content = self._canonicalize(content)
         self.action = action
         self.xml_response = self.build_xml_response(content)
@@ -61,7 +60,7 @@ class Response(object):
     def build_xml_response(self, xml_string):
         try:
             return ET.fromstring(xml_string)
-        except ParseError:
+        except ET.ParseError:
             return None
 
     def _canonicalize(self, xml):  # TODO: move to utils or document.p
@@ -74,16 +73,16 @@ class Response(object):
             return None
 
     @property
-    def tbk_key(self):        
+    def tbk_key(self):
         if not self._tbk_key:
-            self._tbk_key = crypto.load_certificate(crypto.FILETYPE_PEM, 
-                                                    open(os.getenv('TBK_PUBLIC_CRT')).read())   
+            self._tbk_key = crypto.load_certificate(crypto.FILETYPE_PEM,
+                                                    open(os.getenv('TBK_PUBLIC_CRT')).read())
         return self._tbk_key
 
     @property
     def _signed_info(self):  # TODO: move to utils or document.py
         namespaces = ['{http://schemas.xmlsoap.org/soap/envelope/}Header',
-                      '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security', 
+                      '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security',
                       '{http://www.w3.org/2000/09/xmldsig#}Signature',
                       '{http://www.w3.org/2000/09/xmldsig#}SignedInfo']
         element = self.xml_response
@@ -95,7 +94,7 @@ class Response(object):
     @property
     def _signature_value(self):
         namespaces = ['{http://schemas.xmlsoap.org/soap/envelope/}Header',
-                      '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security', 
+                      '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security',
                       '{http://www.w3.org/2000/09/xmldsig#}Signature',
                       '{http://www.w3.org/2000/09/xmldsig#}SignatureValue']
 
@@ -106,7 +105,7 @@ class Response(object):
         return signature_value
 
     def _is_valid_signature(self):
-        if self._testing:  # skip validation on testing mode
+        if self._testing_mode:  # skip validation on testing mode
             return True
         elif not os.getenv('TBK_PUBLIC_CRT'):  # tbk certificate undefined
             return True
@@ -115,7 +114,7 @@ class Response(object):
             crypto.verify(self.tbk_key, self._signature_value, self._signed_info, 'sha1')
             return True
         except:
-            return False 
+            return False
 
     def str2bool(self, bool_string):  # TODO: move to utils
         if bool_string.lower() == 'true':
@@ -200,13 +199,11 @@ class Response(object):
                 self.error_msg = self.response_code_display()
                 self.user_error_msg = self.error_msg
                 self.extra = {'response_code': self.response_code}
-
             elif self.action == 'removeUser' and not self.params['removed']:
                 self.error = 'removeUserError'
                 self.error_msg = 'imposible eliminar la inscripción'
                 self.user_error_msg = self.error_msg
                 self.extra = {'removed': False}
-
             elif self.action == 'codeReverseOneClick' and not self.params['reversed']:
                 self.error = 'codeReverseOneClickError'
                 self.error_msg = 'imposible revertir la compra'

@@ -50,7 +50,7 @@ class Document(object):
         for component in issuer.get_components():
             component_list.append('{}={}'.format(component[0], component[1]))
         return ", ".join(component_list)
-        
+
     def get_serial_number(self):
         return str(self.x509.get_serial_number())
 
@@ -82,10 +82,8 @@ class Document(object):
         body_params = self.build_params_xml(self._params)
         params = {'action': self._action, 'params': body_params, 'body_id': body_id}
         body = BODY_TMPL % params
-
         # 2) firm with body
         digest_value = self.get_digest_value(body, True)
-
         # 3) assign
         xml_to_sign = SIGN_ENV_TMPL % {'digest_value': digest_value, 'body_id': body_id}
         signature_value = self.rsa_sign(xml=xml_to_sign)
