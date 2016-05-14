@@ -37,7 +37,6 @@ from oneclick import OneClick
 oneclick = OneClick()  # Transbank production environment
 ```
 
-```
 Init Inscription
 
 ```
@@ -115,7 +114,7 @@ resp.removed  # True
   ```  
 
 ## Contributors
-This library is derived from [python-oneclick](https://github.com/cornershop/python-oneclick).
+This library is derived from python-oneclick (https://github.com/cornershop/python-oneclick).
 
 You can contribute by forking the project, adding the contributions and creating the PRs, or just file an issue and we will try to solve it ASAP.
 
