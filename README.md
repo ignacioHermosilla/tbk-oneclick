@@ -90,7 +90,7 @@ resp.is_valid()  # True
 resp.reverseCode  # 3619160862457231902
 resp.reversed  # True
 ```
-remove user
+Remove user
 
 ```
 oneclick = OneClick()
@@ -102,6 +102,28 @@ resp.is_valid()  # True
 resp.removed  # True
 ```
 
+## Errors
+
+is_valid() always returns False when something was wrong. Additionally, 3 params are returned: 
+*error: error token
+*error_msg: error description
+*extra: raw error
+
+example:
+
+```
+oneclick = OneClick()
+#  request
+resp = oneclick.authorize(amount_to_charge=10000, 
+                          tbk_user='d2f27f36-b038-4937-8aa6-182b3de38cfd',
+                          username='your_username', 
+                          buy_order='20150820155538859')
+#  response example
+resp.is_valid()  # False
+resp.error  # AuthorizeError
+error.error_msg  #  limites Oneclick, máximo monto de pago excedido
+error.extra  #  <responseCode>-98</responseCode>
+```
 
 ## Tests
 
