@@ -19,8 +19,8 @@ First set environment variable for commerce
 
 ```
 import os
-os.environ['TBK_COMMERCE_KEY'] = "PATH_KEY"
-os.environ['TBK_COMMERCE_CRT'] = "PATH_CERTIFICATE"
+os.environ['TBK_COMMERCE_KEY'] = "KEY"  # path/to/certificate/certificate.key
+os.environ['TBK_COMMERCE_CRT'] = "CERTIFICATE"  # path/to/certificate/certificate.crt
 ```
 
 The default behavior is to use the transbank production environment. If you want to use the Transbank testing environment (with your testing certificates), you need to indicate this on initialization:
