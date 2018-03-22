@@ -1,6 +1,10 @@
 # Transbank Oneclick
 Python implementation of transbank-oneclick API SOAP
 
+## Disclaimer
+
+This library is based on [python-oneclick](https://github.com/cornershop/python-oneclick) (I was the main contributor to this library). **tbk-oneclick** is a "slim" version of python-oneclick, removing the dependency on old and "problematic" cryptographic libraries (C wrappers). That allows the use of this library on environments like **Heroku** or **AWS lambda**.
+
 ## Install
 
 Setup:
